@@ -1,0 +1,167 @@
+﻿<Window x:Class="SpeechForms.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SpeechForms.ViewModels"
+        xmlns:ser="clr-namespace:SpeechForms.Services"
+        xmlns:cmd="clr-namespace:SpeechForms.Commands"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        d:DataContext="{d:DesignInstance vm:MainVM, IsDesignTimeCreatable=True}"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="{Binding Title}" Height="450" Width="800">
+ 
+    <Window.Resources>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+           
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*" MinWidth="400"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="500">
+           <TextBlock Text="{Binding SelectedTable.User.LastName, Mode=TwoWay}" Width="100"/>
+           <telerik:Label Content="{Binding SelectedTable.User.Name}"/>
+           <telerik:Label Content="{Binding SelectedTable.User.MiddleName}"/>
+
+
+        </StackPanel>
+       
+
+
+        <telerik:RadGridView Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" x:Name="gridUserTables"
+                             Margin="20"
+                           
+                             ItemsSource="{Binding UserAttendanceTables}"
+                             SelectedItem="{Binding SelectedTable}"
+                            
+                             SelectionMode="Extended"
+                             SelectionUnit="FullRow"
+                             GroupRenderMode="Flat"
+                             RowIndicatorVisibility="Visible"
+                             CanUserFreezeColumns="False"
+                             BorderThickness="3"
+                             FrozenColumnsSplitterVisibility="Visible"
+                             LeftFrozenColumnCount="3"
+                             RightFrozenColumnCount="2"
+
+                             CanUserResizeColumns="True"
+                             ShowGroupPanel="False"
+                             ShowColumnFooters="False"
+                             AutoGenerateColumns="False">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="ID" DataMemberBinding="{Binding User.Id}" Width="40" MaxWidth="65"/>
+                <telerik:GridViewDataColumn Header="Фамилия" DataMemberBinding="{Binding User.LastName}" />
+                <telerik:GridViewDataColumn Header="Имя" DataMemberBinding="{Binding User.Name}" />
+                <telerik:GridViewDataColumn Header="Очество" DataMemberBinding="{Binding User.MiddleName}" IsVisible="False" />
+
+                <telerik:GridViewCheckBoxColumn Header="1" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day1.IsPass, Mode=TwoWay}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day1.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="2" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day2.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day2.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="3" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day3.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day3.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="4" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day4.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day4.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="5" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day5.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day5.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="6" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day6.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day6.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="7" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day7.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day7.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="8" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day8.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day8.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="9" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day9.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day9.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="10" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day10.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day10.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="11" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day11.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day11.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="12" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day12.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day12.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="13" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day13.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day13.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="14" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day14.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day14.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="15" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day15.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day15.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="16" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day16.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day16.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="17" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day17.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day17.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="18" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day18.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day18.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="19" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day19.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day19.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="20" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day20.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day20.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="21" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day21.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day21.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="22" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day22.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day22.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="23" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day23.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day23.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="24" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day24.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day24.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="25" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day25.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day25.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="26" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day26.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day26.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="27" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day27.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day27.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="28" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day28.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day28.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="29" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day29.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day29.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="30" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day30.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day30.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                <telerik:GridViewCheckBoxColumn Header="31" Width="40" DataMemberBinding="{Binding MonthAttendanceDays.Day31.IsPass}" IsReadOnlyBinding="{Binding MonthAttendanceDays.Day31.IsWeekend}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+
+
+                <telerik:GridViewDataColumn Header="Причины" Width="120" DataMemberBinding="{Binding MonthAttendanceDays.Description}" />
+                <telerik:GridViewDataColumn Header="Пропущенные дни"  Width="80" MaxWidth="80" DataMemberBinding="{Binding MonthAttendanceDays.AbsentDays}"  Background="LightGray" />
+                <telerik:GridViewDataColumn Header="К оплате дней"    Width="80" MaxWidth="80"  DataMemberBinding="{Binding MonthAttendanceDays.PayableDays}" Background="LightGray" />
+
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+
+
+
+        <GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" Background="Gray"
+                      HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+                      ShowsPreview="False"/>
+
+
+        <telerik:RadListBox Grid.RowSpan="2" Grid.Column="2" Margin="10" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            ItemsSource="{Binding RecognizedWords}">
+                <telerik:RadListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding }" Width="500" MaxWidth="800"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap" 
+                               Margin="5"/>
+                </DataTemplate>
+            </telerik:RadListBox.ItemTemplate>
+
+
+        </telerik:RadListBox>
+
+
+        <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" Height="50">
+
+           <telerik:RadButton Width="30" Height="30" Margin="10">
+               <telerik:RadGlyph Glyph="&#xe30a;" FontSize="20"/>
+                <telerik:RadButton.Command>
+                    <cmd:InitRecordCommand/>
+                </telerik:RadButton.Command>
+           </telerik:RadButton>
+
+            <telerik:RadButton Width="30" Height="30" Margin="10">
+                <telerik:RadGlyph Glyph="&#xe200;"/>
+                <telerik:RadButton.Command>
+                    <cmd:RecCommand/>
+                </telerik:RadButton.Command>
+            </telerik:RadButton>
+
+            <telerik:RadButton Width="30" Height="30" Margin="10">
+                <telerik:RadGlyph Glyph="&#xe202;"/>
+                <telerik:RadButton.Command>
+                    <cmd:RecStopCommand/>
+                </telerik:RadButton.Command>
+            </telerik:RadButton>
+
+
+
+            <telerik:RadButton Width="30" Height="30" Margin="10">
+                <telerik:RadGlyph Glyph="&#xe206;"/>
+                <telerik:RadButton.Command>
+                    <cmd:PlayCommand/>
+                </telerik:RadButton.Command>
+            </telerik:RadButton>
+
+
+        </StackPanel>
+    </Grid>
+</Window>
