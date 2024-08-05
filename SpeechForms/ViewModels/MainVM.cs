@@ -15,16 +15,16 @@ public class MainVM : ViewModel
         UserAttendanceTables.AddRange(dataList);
     }
 
-    public RadObservableCollection<UserAttendanceTableVM> UserAttendanceTables { get; set; } = new RadObservableCollection<UserAttendanceTableVM>();
+    public RadObservableCollection<IUserAttendanceTable> UserAttendanceTables { get; set; } = new RadObservableCollection<IUserAttendanceTable>();
 
 
 
     #region SelectedUser
     /// <summary>Фамилия пользователя</summary>
-    private UserAttendanceTableVM _selectedTable;
+    private IUserAttendanceTable _selectedTable;
 
     /// <summary>Фамилия пользователя</summary>
-    public UserAttendanceTableVM SelectedTable
+    public IUserAttendanceTable SelectedTable
     {
         get => _selectedTable;
         set => Set(ref _selectedTable, value);

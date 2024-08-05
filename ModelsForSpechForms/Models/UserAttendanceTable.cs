@@ -8,5 +8,5 @@ public class UserAttendanceTable : IUserAttendanceTable
     public bool IsCalculation { get; set; }
     public IUser User { get; set; }
 
-    public IAttendanceByDayLong MonthAttendanceDays { get; set; }
+    public IAttendanceByDayBase MonthAttendanceDays { get; set; }
 }

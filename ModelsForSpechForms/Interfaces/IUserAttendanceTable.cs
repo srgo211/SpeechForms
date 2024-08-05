@@ -6,5 +6,5 @@ public interface IUserAttendanceTable
     bool IsCalculation { get; set; }
     IUser User { get; set; }
 
-    IAttendanceByDayLong MonthAttendanceDays { get; set; }
+    IAttendanceByDayBase MonthAttendanceDays { get; set; }
 }

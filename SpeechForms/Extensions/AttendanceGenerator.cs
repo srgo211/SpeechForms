@@ -1,4 +1,5 @@
 ﻿using ModelsForSpechForms.Models;
+using SpeechForms.Bl;
 using SpeechForms.ViewModels;
 using System;
 
@@ -9,10 +10,10 @@ namespace SpeechForms.Extensions;
 public class AttendanceGenerator
 {
     static Random random = new Random();
-    public static List<UserAttendanceTableVM> GenerateRandomAttendanceData(int userCount, int year, int month)
+    public static List<IUserAttendanceTable> GenerateRandomAttendanceData(int userCount, int year, int month)
     {
        
-        var attendanceList = new List<UserAttendanceTableVM>();
+        var attendanceList = new List<IUserAttendanceTable>();
         var daysInMonth = DateTime.DaysInMonth(year, month);
 
         for (int i = 0; i < userCount; i++)
@@ -29,65 +30,73 @@ public class AttendanceGenerator
             };
 
             
-            var monthAttendance = new AttendanceByDayLongVM
+            var monthAttendance = new AttendanceByDayBaseVM
             {
                 
                 Month = (byte)month,
-                Day1 = GenerateRandomDay(),
-                Day2 = GenerateRandomDay(),
-                Day3 = GenerateRandomDay(),
-                Day4 = GenerateRandomDay(),
-                Day5 = GenerateRandomDay(),
-                Day6 = GenerateRandomDay(),
-                Day7 = GenerateRandomDay(),
-                Day8 = GenerateRandomDay(),
-                Day9 = GenerateRandomDay(),
-                Day10 = GenerateRandomDay(),
-                Day11 = GenerateRandomDay(),
-                Day12 = GenerateRandomDay(),
-                Day13 = GenerateRandomDay(),
-                Day14 = GenerateRandomDay(),
-                Day15 = GenerateRandomDay(),
-                Day16 = GenerateRandomDay(),
-                Day17 = GenerateRandomDay(),
-                Day18 = GenerateRandomDay(),
-                Day19 = GenerateRandomDay(),
-                Day20 = GenerateRandomDay(),
-                Day21 = GenerateRandomDay(),
-                Day22 = GenerateRandomDay(),
-                Day23 = GenerateRandomDay(),
-                Day24 = GenerateRandomDay(),
-                Day25 = GenerateRandomDay(),
-                Day26 = GenerateRandomDay(),
-                Day27 = GenerateRandomDay(),
-                Day28 = GenerateRandomDay(),
-                Day29 = GenerateRandomDay(),
-                Day30 = GenerateRandomDay(),
-                Day31 = GenerateRandomDay()
+                //Day1 = false,//GenerateRandomDay(),
+                //Day2 = false,//GenerateRandomDay(),
+                //Day3 = false,//GenerateRandomDay(),
+                //Day4 = false,//GenerateRandomDay(),
+                //Day5 = false,//GenerateRandomDay(),
+                Day6 = true,
+                Day7 = true,
+                //Day8 = false,//GenerateRandomDay(),
+                //Day9 = false,//GenerateRandomDay(),
+                //Day10 =false,// GenerateRandomDay(),
+                //Day11 =false,// GenerateRandomDay(),
+                //Day12 =false,// GenerateRandomDay(),
+                //Day13 =false,// GenerateRandomDay(),
+                //Day14 =false,// GenerateRandomDay(),
+                //Day15 = false,// GenerateRandomDay(),
+                 Day16 = true,
+                 Day17 = true,
+                //Day18 =false,//GenerateRandomDay(),
+                //Day19 =false,//GenerateRandomDay(),
+                //Day20 =false,//GenerateRandomDay(),
+                //Day21 =false,//GenerateRandomDay(),
+                //Day22 =false,//GenerateRandomDay(),
+                //Day23 =false,//GenerateRandomDay(),
+                //Day24 =false,//GenerateRandomDay(),
+                //Day25 = false,//GenerateRandomDay(),
+                Day26 = true,
+                Day27 = true,
+                //Day28 =false,// GenerateRandomDay(),
+                //Day29 =false,// GenerateRandomDay(),
+                //Day30 =false,// GenerateRandomDay(),
+                //Day31 = false,// GenerateRandomDay(),
+
+                IsWeekend6  = true,
+                IsWeekend7  = true,
+                IsWeekend16 = true,
+                IsWeekend17 = true,
+                IsWeekend26 = true,
+                IsWeekend27 = true,
+
+
             };
 
             var userAttendance = new UserAttendanceTableVM
-            {
-                IsCalculation = true,
+            {               
                 User = user,
                 MonthAttendanceDays = monthAttendance
             };
 
-            userAttendance.IsCalculation = false;
+
+            var res = Calculate.CalculateAbsentDays(userAttendance.MonthAttendanceDays);
+            userAttendance.MonthAttendanceDays.AbsentDays = res.absentCount;
+            userAttendance.MonthAttendanceDays.PayableDays = res.payableDays;
+
             attendanceList.Add(userAttendance);
         }
 
         return attendanceList;
     }
 
-    private static DayVM GenerateRandomDay()
+    private static bool GenerateRandomDay()
     {
 
-        return new DayVM
-        {
-            IsPass = random.Next(0, 2) == 1,
-            IsWeekend = random.Next(0, 7) == 6 || random.Next(0, 7) == 0 // Пример рандомизации выходных
-        };
+        return random.Next(0, 2) == 1;
     }
 }
 

@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Converters\" />
     <Folder Include="Inrerfaces\" />
     <Folder Include="Localization\" />
     <Folder Include="Repositorys\" />

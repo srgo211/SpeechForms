@@ -64,11 +64,35 @@ internal class InitRecordCommand : Command
     public async Task RunAsync(SpeechRecognizerService ser, string pathModel)
     {
    
-        ser.Run(pathModel);
+        ser.RunPass(pathModel);
         RecCommand.IsEnable = true;
         MessageBox.Show("Модель распознования активирована!");
     }
+}
 
+internal class InitRecordWeekCommand : Command
+{
+    public static bool IsEnable { get; set; } = true;
+    public override bool CanExecute(object parameter)
+    {
 
+        return IsEnable;
+    }
 
+    public override void Execute(object parameter)
+    {
+        string pathModel = @"D:\Download\vosk-model-ru-0.42";
+        pathModel = @"D:\Download\vosk-model-small-ru-0.22";
+        var ser = App.Services.GetRequiredService<SpeechRecognizerService>();
+        IsEnable = false;
+        Task.Run(() => RunAsync(ser, pathModel).ConfigureAwait(false));
+    }
+
+    public async Task RunAsync(SpeechRecognizerService ser, string pathModel)
+    {
+
+        ser.RunWeek(pathModel);
+        RecCommand.IsEnable = true;
+        MessageBox.Show("Модель распознования активирована!");
+    }
 }
