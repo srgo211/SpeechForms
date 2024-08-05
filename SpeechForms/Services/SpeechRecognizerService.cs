@@ -212,7 +212,8 @@ public  class SpeechRecognizerService
 
     public void StopRecognition()
     {
-        recognizer.Stop();
+        recognizer?.Stop();
+        recognizer?.Dispose();
     }
 
 

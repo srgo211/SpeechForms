@@ -10,6 +10,8 @@ public class SpeechRecognizer : IDisposable
     private VoskRecognizer recognizer;
     private WaveInEvent waveIn;
     private bool isDisposed = false;
+    private bool isRecordingStopped = false;
+    private readonly object lockObj = new object();
 
     public event Action<string> OnRecognized;
     public event Action<string> OnFinalResult;
@@ -22,36 +24,62 @@ public class SpeechRecognizer : IDisposable
 
     public void Start()
     {
-        waveIn = new WaveInEvent
+        lock (lockObj)
         {
-            WaveFormat = new WaveFormat(16000, 1)
-        };
+            if (isDisposed) throw new ObjectDisposedException(nameof(SpeechRecognizer));
 
-        waveIn.DataAvailable += (s, a) =>
-        {
-            if (recognizer.AcceptWaveform(a.Buffer, a.BytesRecorded))
+            waveIn = new WaveInEvent
             {
-                var result = recognizer.Result();
-                var recognizedWords = ExtractWordsFromResult(result);
-                OnRecognized?.Invoke(recognizedWords);
-            }
-        };
+                WaveFormat = new WaveFormat(16000, 1)
+            };
 
-        waveIn.RecordingStopped += (s, a) =>
-        {
-            var finalResult = recognizer.FinalResult();
-            var finalWords = ExtractWordsFromResult(finalResult);
-            OnFinalResult?.Invoke(finalWords);
-        };
+            waveIn.DataAvailable += (s, a) =>
+            {
+                lock (lockObj)
+                {
+                    if (!isDisposed && recognizer.AcceptWaveform(a.Buffer, a.BytesRecorded))
+                    {
+                        var result = recognizer.Result();
+                        var recognizedWords = ExtractWordsFromResult(result);
+                        OnRecognized?.Invoke(recognizedWords);
+                    }
+                }
+            };
 
-        waveIn.StartRecording();
+            waveIn.RecordingStopped += (s, a) =>
+            {
+                lock (lockObj)
+                {
+                    if (!isDisposed)
+                    {
+                        isRecordingStopped = true;
+                        var finalResult = recognizer.FinalResult();
+                        var finalWords = ExtractWordsFromResult(finalResult);
+                        OnFinalResult?.Invoke(finalWords);
+                    }
+                }
+            };
+
+            waveIn.StartRecording();
+        }
     }
 
-    public void Stop()=> waveIn?.StopRecording();
-
+    public void Stop()
+    {
+        lock (lockObj)
+        {
+            if (waveIn != null && !isRecordingStopped)
+            {
+                waveIn.StopRecording();
+                isRecordingStopped = true;
+            }
+        }
+    }
 
     private string ExtractWordsFromResult(string result)
     {
+        if (string.IsNullOrEmpty(result)) return string.Empty;
+
         using (JsonDocument doc = JsonDocument.Parse(result))
         {
             JsonElement root = doc.RootElement;
@@ -63,15 +91,33 @@ public class SpeechRecognizer : IDisposable
         return string.Empty;
     }
 
-
     public void Dispose()
     {
-        if (!isDisposed)
+        lock (lockObj)
         {
-            recognizer?.Dispose();
-            model?.Dispose();
-            waveIn?.Dispose();
-            isDisposed = true;
+            if (!isDisposed)
+            {
+                if (waveIn != null)
+                {
+                    if (!isRecordingStopped)
+                    {
+                        waveIn.StopRecording();
+                    }
+
+                    waveIn.Dispose();
+                    waveIn = null;
+                }
+
+                recognizer?.Dispose();
+                recognizer = null;
+
+                model?.Dispose();
+                model = null;
+
+                isDisposed = true;
+            }
         }
     }
 }
+
+

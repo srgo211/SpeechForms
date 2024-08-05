@@ -258,30 +258,23 @@
 
         <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" Height="50">
 
-            <telerik:RadButton Width="30" Height="30" Margin="10" ToolTip="Пропуски">
+            <telerik:RadButton Width="30" Height="30" Margin="10" ToolTip="Записываем пропуски">
                <telerik:RadGlyph Glyph="&#xe30a;" FontSize="20"/>
                 <telerik:RadButton.Command>
-                    <cmd:InitRecordCommand/>
+                    <cmd:StartRecPassCommand/>
                 </telerik:RadButton.Command>
            </telerik:RadButton>
 
             <telerik:RadButton Width="30" Height="30" Margin="10" ToolTip="Выходные">
                 <telerik:RadGlyph Glyph="&#xe30a;" FontSize="20"/>
                 <telerik:RadButton.Command>
-                    <cmd:InitRecordWeekCommand/>
+                    <cmd:StartRecWeekCommand/>
                 </telerik:RadButton.Command>
             </telerik:RadButton>
 
 
 
-            <telerik:RadButton Width="30" Height="30" Margin="10">
-                <telerik:RadGlyph Glyph="&#xe200;"/>
-                <telerik:RadButton.Command>
-                    <cmd:RecCommand/>
-                </telerik:RadButton.Command>
-            </telerik:RadButton>
-
-            <telerik:RadButton Width="30" Height="30" Margin="10">
+            <telerik:RadButton Width="30" Height="30" Margin="10" ToolTip="Остановка записи">
                 <telerik:RadGlyph Glyph="&#xe202;"/>
                 <telerik:RadButton.Command>
                     <cmd:RecStopCommand/>
