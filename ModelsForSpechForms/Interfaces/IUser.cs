@@ -3,7 +3,7 @@
 public interface IUser
 {
     // Уникальный идентификатор пользователя
-    int Id { get; }
+    int Id { get; set; }
     int Num { get; set; }
 
     // Фамилия пользователя

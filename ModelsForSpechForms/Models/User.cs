@@ -11,7 +11,7 @@ public class User : IUser
     public User(){}
 
     // Уникальный идентификатор пользователя
-    public int Id { get; private set; }
+    public int Id { get;  set; }
     public int Num { get; set; }
 
     // Фамилия пользователя

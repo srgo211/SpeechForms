@@ -11,6 +11,7 @@
         d:DataContext="{d:DesignInstance vm:MainVM, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         WindowState="Maximized"
+        Closed="MainWindow_OnClosed"
         Title="{Binding Title}" Height="450" Width="800">
 
     <Window.Resources>
@@ -287,6 +288,14 @@
                 <telerik:RadGlyph Glyph="&#xe206;"/>
                 <telerik:RadButton.Command>
                     <cmd:PlayCommand/>
+                </telerik:RadButton.Command>
+            </telerik:RadButton>
+
+
+            <telerik:RadButton Width="30" Height="30" Margin="10">
+                <telerik:RadGlyph Glyph="&#xe10a;"/>
+                <telerik:RadButton.Command>
+                    <cmd:PrintCommand/>
                 </telerik:RadButton.Command>
             </telerik:RadButton>
 

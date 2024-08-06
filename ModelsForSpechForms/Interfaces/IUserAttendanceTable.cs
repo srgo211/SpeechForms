@@ -2,7 +2,7 @@
 
 public interface IUserAttendanceTable
 {
-    Guid Guid { get; }
+    Guid Guid { get; set; }
     bool IsCalculation { get; set; }
     IUser User { get; set; }
 

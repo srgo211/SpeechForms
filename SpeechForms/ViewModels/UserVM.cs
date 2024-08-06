@@ -9,7 +9,7 @@ public class UserVM : ViewModel, IUser
     public UserVM() { }
 
 
-    public int Id { get; }
+    public int Id { get; set; }
 
     #region Num
     /// <summary>Номер пользователя</summary>

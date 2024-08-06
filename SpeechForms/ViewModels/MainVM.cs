@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections.ObjectModel;
+﻿using System.IO;
 
 namespace SpeechForms.ViewModels;
 
@@ -10,8 +8,13 @@ public class MainVM : ViewModel
 
     public MainVM()
     {
-        
-        var dataList = AttendanceGenerator.GenerateRandomAttendanceData(10, 2024, 08);
+        List<IUserAttendanceTable> dataList = default;
+        if (File.Exists(Settings.PathFileUsers))
+        {
+            dataList = AttendanceGenerator.GetAttendanceData();
+        }
+        else dataList = AttendanceGenerator.GenerateRandomAttendanceData(10, 2024, 08);
+        //var 
         UserAttendanceTables.AddRange(dataList);
     }
 
